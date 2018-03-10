@@ -40,15 +40,22 @@ module.exports = function getZerosCount(number, base) {
 
   let count = {};
 
+  let countDiv = {};
+
   for (var index = 0; index < baseArray.length; index++) {
     var element = baseArray[index];
     tempNumber = number;
 
-    if (!count[element] > 0) {
-      count[element] = 0;
+
+    if (count[element] > 0) {
+      countDiv[element]++;
+      continue;
+    }
+    else {
+      countDiv[element] = 1;
     }
 
-    count[element] += getZeros(tempNumber, element);
+    count[element] = getZeros(tempNumber, element);
 
   }
 
@@ -56,10 +63,14 @@ module.exports = function getZerosCount(number, base) {
 
   for (var index = 0; index < baseArray.length; index++) {
     var element = baseArray[index];
-    if (count[element] < min) {
-      min = count[element];
+
+    let current = Math.trunc(count[element] / countDiv[element]);
+
+    if (current < min) {
+      min = current;
     }
   }
 
   return min;
+  // return count[baseArray[0]];
 }
